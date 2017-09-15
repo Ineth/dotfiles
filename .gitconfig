@@ -58,8 +58,9 @@
 
 	# Remove branches that have already been merged with master
 	# a.k.a. ‘delete merged’
-	dm = "!git branch --merged | grep -v '\\*' | xargs -n 1 git branch -d"
-
+	#dm = "!git branch --merged | grep -v '\\*' | xargs -n 1 git branch -d"
+	#Alternative: git branch -r --merged | grep -v master | grep -v stable | grep -v production`; do git push origin --delete `echo $branch | cut -d'/' -f 2`; done
+	
 	# List contributors with number of commits
 	contributors = shortlog --summary --numbered
 
@@ -74,7 +75,9 @@
 			git commit --amend -m \"$(git log -1 --pretty=%B)\n\nCloses #$1.\"; \
 		fi \
 	}; f"
-
+	
+	# Remove local branches that no longer have a remote
+	rl = "!git fetch -p && for branch in `git branch -vv | grep ': gone]' | awk '{print $1}'`; do git branch -D $branch; done"
 [apply]
 
 	# Detect whitespace errors when applying a patch
