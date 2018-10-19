@@ -1,11 +1,22 @@
 [alias]
+	# Stage all changes
+	sa = add .
 
-    # Stage all changes
-    sa = add .
+	# Commit with message
+	# cmt = !"f() { git commit -m $1; }; f"
 
-    # Commit with message
-    # cmt = !"f() { git commit -m $1; }; f"
-
+	# Merge master branch into current branch
+	mm = merge master
+	
+	# Merge dev branch into current branch
+	md = merge dev
+	
+	# Reset hard
+	rh = reset --hard
+	
+	# Reset file to HEAD
+	rf = "!f() { git checkout head -- $1; }; f"
+	
 	# View abbreviated SHA, description, and history graph of the latest 20 commits
 	l = log --pretty=oneline -n 20 --graph --abbrev-commit
 
@@ -76,11 +87,11 @@
 		fi \
 	}; f"
 	
-	# Check local branches that no longer have a remote
-	rlc = "!git fetch -p && git branch -vv | grep ': gone]' | awk '{print $1}'"
-	
 	# Remove local branches that no longer have a remote
 	rl = "!git fetch -p && for branch in `git branch -vv | grep ': gone]' | awk '{print $1}'`; do git branch -D $branch; done"
+	
+	# Check local branches that no longer have a remote
+	rlc = "!git fetch -p && git branch -vv | grep ': gone]' | awk '{print $1}'"
 [apply]
 
 	# Detect whitespace errors when applying a patch
